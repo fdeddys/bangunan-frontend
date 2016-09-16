@@ -1,0 +1,101 @@
+<div growl></div> 
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Input / Edit Data Cara Bayar ke Supplier</h3>
+  </div>
+  <div class="panel-body">
+		<div class='container-fluid' uib-collapse="tutupGrid"  >
+			<div>
+				Cari Nama  : <input id='idCari' type='text' ng-model='search' ng-change='getAll()' >
+					
+				<input type='button' 				
+						class='btn btn-primary '
+						ng-click='tambahCaraBayar()'						
+						value="  Add New " 
+						style='width:15em; height:3em'				
+						/>
+				<input type='button' 				
+						class='btn '
+						ng-click='previewLaporan()'						
+						value="  Preview " 
+						style='width:15em; height:3em'				
+						/>
+			</div>
+			<br>
+			<table class="table table-bordered table-striped table-condensed table-hover" style="background-color:#D6EBFF"  >
+				<thead>
+					<tr>
+						<td width="20%"><button class="btn btn-block btn-default" ng-click='urut("kode")'>ID</button></td>    
+					    <td width="60%"><button class="btn btn-block btn-default" ng-click='urut("nama")'>Nama</button></td> 	
+					    <td width="15%" colspan="2"></td>
+					    <!-- <td width="10%"></td> -->
+					</tr>	
+				</thead>
+				<tbody>
+					<tr ng-repeat='caraBayar in caraBayars | orderBy:ordercaraBayar ' >
+						<td>{{caraBayar.id}}</td>				
+					    <td>{{caraBayar.nama}}</td> 			
+					    <td><button type='button' class='btn btn-warning btn-block btn-ms'
+					    	ng-click='ubahCaraBayar(caraBayar.id,caraBayar.nama,$index)'
+					    	><span> Edit </span></button></td>
+					    <td><button type='button' class='btn btn-danger btn-block btn-ms'
+					    	ng-click='hapusCaraBayar(caraBayar.id,caraBayar.nama)'
+					    	>Delete</button></td>		    
+					</tr>		
+				</tbody>
+			</table>
+			<div class="row">
+		        <uib-pagination total-items="totalItems" items-per-page="itemsPerPage" 
+		         	ng-model="currentPage" ng-change="pageChanged()" max-size="10" boundary-links="true" rotate="false"></uib-pagination>
+		    </div>
+		</div>
+
+		<div uib-collapse="!tutupGrid" ng-class='classForm' class='container-fluid' style='color:whitesmoke'  >
+			<div>
+				<h3 >Detil</h3>
+				<hr>
+
+				<form class="form-horizontal">
+		    
+				    <div class="form-group form-group-sm">
+				        <label for="id" class="col-sm-2 control-label">ID</label>
+				        <div class="col-sm-2">
+				        	<input type='text' class="form-control " ng-disabled='true' id="id" ng-model='caraBayar.id' />              
+				        </div>
+				    </div>				    
+				    <div class="form-group form-group-sm">
+				        <label for="nama" class="col-sm-2 control-label">Nama</label>
+				        <div class="col-sm-6">     
+				        	<input type='text' id='nama' maxlength='90' ng-model='caraBayar.nama' size="50" class="form-control "  />    
+				        </div>
+				    </div>				    
+				</form>
+				
+				<br>		
+
+				<table border='0' >
+					<thead>
+						<tr >
+							<td width='8%'></td>
+							<td width='1%'></td>
+							<td width='8%'></td>
+							<td width='20%'></td>
+							<td width='20%'></td>
+						</tr>	
+					</thead>			
+					<tbody>
+						<tr>
+							<td><button class="btn btn-warning btn-block" ng-click='proses()'>Ok</button></td>
+							<td></td>					
+							<td><button class="btn btn-success btn-block" ng-click='tutupDetil()'>Close</button></td>
+							<td></td>					
+							<td></td>					
+						</tr>
+					</tbody>
+				</table>			
+			</div>
+			<hr>	
+		</div>
+  </div>
+</div>

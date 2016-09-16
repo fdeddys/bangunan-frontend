@@ -1,0 +1,93 @@
+<div class="modal-header" id="myModal" >
+	<h2 class="modal-title" style="color:SteelBlue">Pembayaran !</h2>
+</div>
+<div class="modal-body" style="background-color:navy; ">
+	<div style="color:white;background-color:red;" >
+	<p class="text-center"><h4 class="text-center" >Pembayaran #{{id}}#</h4></p>
+	</div>
+
+	<table border="0" width="100%" >	
+		<tbody>
+			<tr>
+				<td width="15%" style="color:white" align="left" >Id</td>	
+				<td width="5%"  align="center" style="color:white">:</td>	
+				<td width="30%" style="color:white">		
+					<p class="form-control-static" >{{penerimaanHd.id}}</p> 
+				</td>
+				<td width="25%" style="color:white">Tanggal terima</td>			
+				<td width="5%" style="color:white" align="center">:</td>	
+				<td width="20%" style="color:white">{{penerimaanHd.tglTerima}}</td>
+			</tr>
+			<tr>
+				<td style="color:white" >No Faktur</td>	
+				<td align="center" style="color:white">:</td>
+				<td >
+					<p class="form-control-static" style="color:white" >
+					{{penerimaanHd.noFaktur}}</p>						
+				</td>			
+					
+				<td style="color:white">Supplier</td>	
+				<td align="center" style="color:white">:</td>
+				<td ><p class="form-control-static" style="color:white" >
+					{{penerimaanHd.supplier.nama}}</td>
+			</tr>								
+			<tr >				
+				<td style="color:white">Status</td>					
+				<td align="center" style="color:white">:</td>
+				<td style="color:white">
+					<p class="form-control-static" >{{penerimaanHd.statusTerima}}</p>
+				</td>
+				<td style="color:white">Keterangan</td>				
+				<td align="center" style="color:white">:</td>		
+				<td >
+					{{penerimaanHd.keterangan}}
+				</td>
+			</tr>				 				 
+		</tbody>
+	</table>
+	<hr>
+	
+	<form class="form-horizontal" style="color:red;background-color:white; ">
+		<br>
+	    <div class="form-group form-group-sm">
+	        <label for="caraBayar" class="col-sm-3 control-label">Cara Pembayaran</label>
+	        <div class="col-sm-8">
+	        	<select ng-model="caraBayar" ng-options="caraBayar.nama for caraBayar in caraBayars track by caraBayar.id" id="caraBayar" ></select>              
+	        </div>
+	    </div>		
+	    <div class="form-group form-group-sm">
+	        <label for="nama" class="col-sm-3 control-label">Tanggal Bayar</label>
+	        <div class="col-sm-5">     
+	        	<p class="input-group">
+		          	<input 	type="text" 
+		          			class="form-control input-sm" 
+		          			uib-datepicker-popup="dd-MMM-yyyy" 
+		          			ng-model="tglBayar" 
+		          			id="tgl1"
+		          			size='15%'
+		          			is-open="opened" 
+		          			datepicker-options="dateOptions" 
+		          			date-disabled="disabled(date, mode)" 
+		          			ng-required="true" 
+		          			close-text="Close" 
+		          			alt-input-formats="altInputFormats" />
+		          	<span class="input-group-btn">
+		            	<button type="button" class="btn btn-info" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+		          	</span>
+		        </p>  
+	        </div>
+	    </div>	
+	    <div class="form-group form-group-sm">
+	        <label for="keterangan" class="col-sm-3 control-label">Keterangan</label>
+	        <div class="col-sm-8">     
+	        	<input type='text' id='keterangan' maxlength='90' ng-model='keterangan' size="50" class="form-control "  />    
+	        </div>
+	    </div>	
+		<hr>		
+	</form>
+
+</div>
+<div class="modal-footer">
+	<button class="btn btn-danger " style='width:10em' ng-click="ok()">OK</button>
+	<button class="btn btn-warning " style='width:10em' ng-click="cancel()">Cancel</button>
+</div>

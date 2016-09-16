@@ -1,0 +1,459 @@
+appControllers.controller('penjualanBarangDetilController',['$scope','penjualanHdFactory','growl','$location', '$rootScope','focus','$filter','$routeParams','customerFactory','barangFactory','penjualanDtFactory','$q','$window','$uibModal',
+	function($scope, penjualanHdFactory, growl, $location, $rootScope,focus, $filter, $routeParams, customerFactory, barangFactory, penjualanDtFactory,$q, $window, $uibModal){
+		
+	var transaksiBarang = true;
+	$scope.scTransaksiBarang;
+	$scope.statusTrans;	
+
+	// Paging
+	// $scope.totalItems;
+	// $scope.itemsPerPage= 6;
+	// $scope.currentPage = 1;
+
+	//$scope.customerSelected={};
+	// tanggal
+		$scope.today = function() {
+	    	$scope.tglJual = new Date();	    	
+		};		
+
+		$scope.open = function($event) {
+		    $event.preventDefault();
+		    $event.stopPropagation();
+		    $scope.opened = true;		    
+		};
+
+		$scope.dateOptions = {
+			formatYear: 'yy',
+			startingDay: 1
+		};
+	// END tanggal
+
+ 	$scope.pageChanged=function(){
+ 		getAllDetil($scope.currentPage); 	 			  
+    };
+
+    $scope.saveAtas=function(){
+
+    	var promise = saveHdr()
+    			.then(function(){
+					$scope.kondisiView = !$scope.kondisiView;    				
+    			},function(error){
+    				growl.addInfoMessage('Error saving hdr ' + error);
+    			})
+
+    }
+
+    function cekStatusApakahBisaBatalApprove(){
+
+    	var deferred =$q.defer();
+		penjualanHdFactory
+		    .getById($scope.penjualanHd.id)
+		    .then(function(response){
+		    	var hasil = response.data;
+		    	if (hasil.statusJual == 'APPROVED'){
+					deferred.resolve(hasil.statusJual);		    		
+		    	}else{
+		    		deferred.reject(hasil.statusJual);
+		    	}
+		    })
+		return deferred.promise;
+    }
+    
+    $scope.batalAprove=function(){   
+    	var promise = cekStatusApakahBisaBatalApprove()
+    					.then(function(data){
+    						//growl.addInfoMessage("batal approve");
+    						prosesBatalApprove();
+    					},function(error){
+    						// console.log(error);
+    						growl.addWarnMessage("Batal approve gagal, status = [" + error + "]");
+    					})
+    }
+
+    function prosesBatalApprove(){
+
+    	var modalInstance = $uibModal.open({
+			templateUrl: 'js/app/dialogForm/dialogForm.html',
+			controller: 'dialogController',
+			size: '',
+		    resolve: 
+		    	{
+	        		pesan: function () {
+	          			return "Apakah anda yakin akan ** BATAL APPROVE ** data ini ?";
+	        		},
+	        		id: function () {
+	          			return $scope.penjualanHd.id;
+	        		}	
+      			}
+	    });
+
+	    modalInstance
+	    	.result.then(function(idHd){
+		    	var idGudang = $rootScope.globals.currentUser.idGudang;
+		    	penjualanHdFactory
+		    		.batalApprove(idHd, idGudang)
+		    		.then(function(response){
+		    			$scope.penjualanHd = response.data;
+		    			$scope.kondisiView = true;
+						$scope.approved =true;
+		    		},function(data){		    			
+		    			//console.log(data);
+		    			//data -->> data, status, headers, config, statusText
+		    			
+		    			if(data.status=="418"){		    				
+		    				growl.addInfoMessage("error " + data.data.message );		    									 
+		    			}
+		    		});
+
+	    	},function(response){
+	    		growl.addInfoMessage(" canceled");
+
+	    	})
+    }
+
+    $scope.approvedTrans=function(){
+
+    	if($scope.penjualanBarangDetils.length==0){
+    		growl.addInfoMessage("Barang belum ada , silahkan di isi!!!");
+    		return;
+    	}
+    	
+    	var modalInstance = $uibModal.open({
+			templateUrl: 'js/app/dialogForm/dialogForm.html',
+			controller: 'dialogController',
+			size: '',
+		    resolve: 
+		    	{
+	        		pesan: function () {
+	          			return "Apakah anda yakin akan APPROVE data ini ?";
+	        		},
+	        		id: function () {
+	          			return $scope.penjualanHd.id;
+	        		}
+      			}
+	    });
+
+	    modalInstance
+	    	.result.then(function(idHd){
+		    	var idGudang = $rootScope.globals.currentUser.idGudang;
+		    	penjualanHdFactory
+		    		.approve(idHd, idGudang)
+		    		.then(function(response){
+		    			$scope.penjualanHd = response.data;
+		    			$scope.kondisiView = true;
+						$scope.approved =true;
+		    		},function(data){		    			
+		    			//console.log(data);
+		    			//data -->> data, status, headers, config, statusText
+		    			
+		    			if(data.status=="418"){		    				
+		    				growl.addInfoMessage("error " + data.data.message );		    									 
+		    			}
+		    		});
+
+	    	},function(response){
+	    		growl.addInfoMessage(" canceled");
+	    	})
+    }
+
+    $scope.edit =  function(){
+    	$scope.kondisiView = !$scope.kondisiView;
+    	focus('keterangan');
+    };
+
+    $scope.hapusDetil = function(idDetil, nama){
+    	var modalInstance = $uibModal.open({
+			templateUrl: 'js/app/dialogForm/dialogForm.html',
+			controller: 'dialogController',
+			size: '',
+		    resolve: 
+		    	{
+	        		pesan: function () {
+	          			return "Apakah anda yakin akan menghapus data [" + nama + "] ini ?";
+	        		},
+	        		id: function () {
+	          			return idDetil;
+	        		}
+      			}
+	    });
+
+	    modalInstance
+	    	.result.then(function(id){
+	    		//delete
+	    		penjualanDtFactory
+	    			.delete(id)
+	    			.then(function(response){
+	    				growl.addInfoMessage("success delete");
+	    				//getall
+	    				getAllDetil(1);
+	    				hitungTotalBelanja();
+	    			},function(error){
+	    				growl.addInfoMessage("gagal delete");
+	    			})
+
+	    		growl.addInfoMessage("delete id" + id);
+	    	},function(pesan){
+	    		growl.addInfoMessage("cancel del" );
+	    	})
+    }
+
+    function saveHdr(){
+
+    	var deferred = $q.defer();
+
+    	if($scope.customerSelected==null || $scope.customerSelected==undefined || $scope.customerSelected==''){    		
+    		growl.addInfoMessage("customer belum terisi !!");
+    		deferred.reject('customer belum ada');   
+    	}    	
+    	else 
+    	{
+	    	var vTgl = $filter('date')($scope.tglJual,'yyyy-MM-dd');
+	    	var hdrDto={
+			    'id' : $scope.penjualanHd.id,
+			    'customerId' : $scope.customerSelected.id,
+			    'tglJual' : vTgl,
+			    'keterangan' : $scope.penjualanHd.keterangan,
+			    'userUpdate' : $rootScope.globals.currentUser.nama ,
+			    'isTransBarang' : transaksiBarang  		
+	    	}
+
+	    	if($scope.penjualanHd.id== null){
+	    		penjualanHdFactory
+		    		.insert(hdrDto)
+		    		.then(function(response){
+		    			$scope.penjualanHd = response.data;	    				    			
+		    			console.log("save hdr success");
+		    			focus('barang');
+		    			deferred.resolve('true');
+		    		},function(data, status, headers, config, statusText){
+		    			deferred.reject('error save ' + data.message);   
+		    			console.log("data : " + data + " status " + status);
+		    		})    		
+	    	}else{
+	    		penjualanHdFactory
+	    			.update($scope.penjualanHd.id,hdrDto)
+	    			.then(function(response){
+		    			$scope.penjualanHd = response.data;	    				    			
+		    			console.log("update hdr success");
+		    			focus('barang');
+		    			deferred.resolve('true');
+		    		}, function(error){
+		    			deferred.reject('error update');   
+		    			console.log('error');	
+		    		})    		
+	    	}
+	    	
+	    }
+	    return deferred.promise;
+    }
+
+    function getAllDetil(hal){
+    	//console.log('get all detil idhd = '+$scope.penjualanHd.id);
+    	penjualanDtFactory
+    		.getByIdHd($scope.penjualanHd.id,hal,$scope.itemsPerPage)
+    		.success(function(data){
+    			$scope.penjualanBarangDetils=data.content;
+    			$scope.totalItems = data.totalElements;
+    		})
+    };
+
+    $scope.getCustomerByNama = function(cariNama){
+    	
+		return	customerFactory
+	    	 		.getCustomerByNamaPage(cariNama, 1, 5)
+					.then(function(response){
+	    				//console.log('load http' + response.data.nama); 
+	    				customers=[];
+	    				angular.forEach(response.data.content, function(item){
+			                customers.push(item);
+			                // console.log('tambah :' + item.namaSatuan);
+			            });
+	    				return customers;
+	    			})
+    }
+
+    $scope.getBarangByNama = function(cariNama){
+
+    	if(transaksiBarang == 'true'){
+			return barangFactory
+					.getByNamaPage(cariNama, 1, 10)
+					.then(function(response){
+						console.log('load barang http' + response.data.nama); 
+						barangs=[];
+						angular.forEach(response.data.content, function(item){
+			                barangs.push(item);		                
+			            });
+						return barangs;
+					})    		
+    	}else{
+    		return barangFactory
+					.getByJasaNamaPage(cariNama, 1, 10)
+					.then(function(response){
+						console.log('load jasa shttp' + response.data.nama); 
+						barangs=[];
+						angular.forEach(response.data.content, function(item){
+			                barangs.push(item);		                
+			            });
+						return barangs;
+					})    		
+    	}
+    };
+
+    $scope.previewLaporan=function(){
+		 $window.open($rootScope.pathServerJSON + '/api/penjualanHd/report/'+$scope.penjualanHd.id, '_blank');
+	}
+
+    $scope.simpanDetil = function(){
+    	if($scope.penjualanDt.harga==null || $scope.penjualanDt.jumlah==null ){
+    		growl.addInfoMessage("Harga / jumlah tidak valid !!");
+    		focus('harga');
+    		return ;
+    	}else{
+	    	if($scope.penjualanHd.id == null){
+
+	    		var promise = saveHdr()
+	    			.then(function(){
+	    				// function save hdr sdh sukses masuk ke save detil'
+	    				saveDetil();
+	    			},function(error){
+	    				growl.addInfoMessage('Error saving hdr ' + error);
+	    			})
+	    	}else{    		
+	    		saveDetil();
+	    	}
+    		
+    	}
+    }
+
+    $scope.transaksiBaru = function(){
+    	newRec();
+    	focus('suppliers');
+    }
+
+    function hitungTotalBelanja(){
+    	penjualanHdFactory
+    		.hitungTotal($scope.penjualanHd.id)
+    		.then(function(response){
+    			$scope.totalBelanja= response.data;
+    		},function(error){
+    			$scope.totalBelanja=0;
+    		})
+    	
+    }
+
+    function saveDetil(){
+    	var penjualanDto={					    
+		    "idBarang": $scope.barangSelected.id,
+		    "harga": $scope.penjualanDt.harga,
+		    "jumlah": $scope.penjualanDt.jumlah,
+		    "idPenjualanHd": $scope.penjualanHd.id
+		};
+
+		penjualanDtFactory		
+			.insert(penjualanDto)
+			.then(function(data){
+				focus('barang');
+				// get all deti	
+				$scope.penjualanDt={			
+				    "id": null,
+				    "barang": null,
+				    "harga": null,
+				    "jumlah": null,
+				    "penjualanHd": null
+				};			
+				$scope.barangSelected=null;
+				getAllDetil($scope.currentPage);
+				hitungTotalBelanja();	
+			})
+    	
+    }
+
+    function newRec(){
+    	$scope.today();
+    	$scope.approved =false;
+    	$scope.kondisiView=false;
+    	$scope.customerSelected=null;
+    	var customers=[];
+		var barangs=[];
+
+
+		$scope.penjualanHdDetils=[];		
+		
+		$scope.penjualanHd={
+		    "id": null,
+		    "customer": null,
+		    "tglJual": null,
+		    "keterangan": null,
+		    "statusJual": null,
+		    "lastUpdate": null,
+		    "userUpdate": null
+		};	
+
+		$scope.penjualanDt={			
+		    "id": null,
+		    "barang": null,
+		    "harga": null,
+		    "jumlah": null,
+		    "penjualanHd": null
+		}	
+
+		$scope.statusTrans ='NEW';	
+		$scope.totalBelanja=0;	
+		// Paging
+		$scope.totalItems;
+		$scope.itemsPerPage= 6;
+		$scope.currentPage = 1;
+
+		$scope.penjualanBarangDetils=[];
+    	$scope.totalItems = 0;
+		
+    }
+
+	function startModule(){	
+
+		$scope.approved =false;
+		newRec();
+		
+		var idParam = $routeParams.idHdr;
+		transaksiBarang = $routeParams.isTransBarang;
+		$scope.scTransaksiBarang = transaksiBarang;
+		console.log($scope.scTransaksiBarang);
+		switch(idParam){
+			case '0' :
+					//new
+					$scope.statusTrans ='NEW';
+					//console.log("0 baru");
+					focus('customers');
+					break;
+			case 'undefined':
+					// new
+					$scope.statusTrans ='NEW';
+					//console.log("undefined baru");
+					focus('customers');
+					break;
+			default :
+					// edit
+					$scope.statusTrans ='EDIT';
+					console.log("edit");
+					penjualanHdFactory					
+						.getById(idParam)
+						.then(function(response){
+							$scope.penjualanHd = response.data;
+							$scope.tglJual = new Date($scope.penjualanHd.tglJual);
+							$scope.customerSelected = $scope.penjualanHd.customer;
+							getAllDetil(1);
+							hitungTotalBelanja();
+							if($scope.penjualanHd.statusJual=="APPROVED"){
+								$scope.kondisiView = true;
+								$scope.approved =true;
+							}else{
+								$scope.kondisiView = false;
+								focus('barang');								
+							}
+						})					
+		}
+	};
+
+	startModule();
+
+}]);

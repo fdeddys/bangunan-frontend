@@ -1,0 +1,111 @@
+
+<h3 class="page-header">Dashboard </h3>
+ <!-- {{tglAwal |date:'dd-MMM-yyyy'}} s/d {{tglAkhir|date:'dd-MMM-yyyy'}} -->
+
+<table>
+  <tr  >
+    <td width="20%">
+      <p class="input-group">
+        <input  
+            type="text" 
+            class="form-control input-sm" 
+            uib-datepicker-popup="dd-MMM-yyyy" 
+            ng-model="tglAwal" 
+            id="tgl1"
+            size='15%'
+            is-open="opened" 
+            datepicker-options="dateOptions" 
+            date-disabled="disabled(date, mode)" 
+            ng-required="true" 
+            close-text="Close" 
+            alt-input-formats="altInputFormats" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-primary" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </p>
+    </td>
+    <td width="3%">
+      <!-- spasi antar tanggal dg button -->
+    </td>
+    <td width="20%">
+      <p class="input-group">
+        <input  
+            type="text" 
+            class="form-control input-sm" 
+            uib-datepicker-popup="dd-MMM-yyyy" 
+            ng-model="tglAkhir" 
+            id="tgl1"
+            size='15%'
+            is-open="opened2" 
+            datepicker-options="dateOptions" 
+            date-disabled="disabled(date, mode)" 
+            ng-required="true" 
+            close-text="Close" 
+            alt-input-formats="altInputFormats" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-primary" ng-click="open2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </p>
+    </td>
+    <td width="3%">
+      <!-- spasi antar tanggal dg button -->
+    </td>
+    <td width="15%">
+      <p>
+        <input 
+            type="button" 
+            class="btn btn-danger btn-block" 
+            value="Proses" 
+            ng-click="prosesDashboard()" >
+      </p>
+    </td>
+    <td>
+      <!-- LAST spasi -->
+    </td>
+  </tr>
+</table>
+
+  <div class="col-sm-12    ">
+
+    <div class="row">
+      <div class="col-sm-10 " style="background:whitesmoke">
+          <h4> Pembelian - Penjualan</h4>
+          <span class="text-muted">{{totalPembelian | number}} - {{totalPenjualan| number}}
+          </span>
+          <br>
+           <fusioncharts                
+                width="100%"
+                height="400"
+                type="pie3d"
+                dataSource="{{dataSourcePenjPemb}}" >
+           </fusioncharts>
+      </div>      
+    
+      <!-- <h4>TOP Customer</h4>
+      <span class="text-muted"></span> -->
+      <div class="col-sm-10 "  style="background:whitesmoke">
+        <br>
+         <fusioncharts
+              width="100%"
+              height="400"
+              type="column2d"
+              dataSource="{{dataSourceTopCustomer}}" >
+         </fusioncharts>
+      </div>
+
+      <!-- <h4>TOP Supplier</h4>
+      <span class="text-muted"></span> -->
+      <div class="col-sm-10 " style="background:whitesmoke">
+         <fusioncharts
+              width="100%"
+              height="400"
+              type="column2d"
+              dataSource="{{dataSourceTopSupplier}}" >
+         </fusioncharts>
+      </div>
+      <br>
+    </div>
+
+</div>
+  
+

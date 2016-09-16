@@ -1,0 +1,126 @@
+<div growl></div> 
+
+<div class="panel panel-warning">
+	<div class="panel-heading">
+		<h3 class="panel-title">History Stock Barang</h3>
+	</div>
+  	<div class="panel-body">
+		<div class='container-fluid'  >
+			<div>
+				<form class="form-inline">	
+					<div class="form-group">
+						<p class="input-group">
+			    		<label for="cariBarang">Nama Barang </label>
+			    		</p>
+			    		<p class="input-group">
+			    			<input 
+								type="text" 
+								id="barang"								
+								ng-model="barangSelected"   
+								class="form-control input-sm" 
+								uib-typeahead="barang as barang.nama +' ['+ barang.id+']' for barang in getBarangByNama($viewValue)" 
+								typeahead-loading="loadingBarangs" typeahead-no-results="noResultsBarang"
+								placeholder="Isi Nama Barang">
+				    	</p>
+			  		</div>
+					<div class="form-group ">
+						<p class="input-group">
+			    		<label for="tgl1">Tanggal </label>
+			    		</p>
+			    		<p class="input-group">
+				          	<input 	type="text" 
+				          			class="form-control input-sm" 
+				          			uib-datepicker-popup="dd-MMM-yyyy" 
+				          			ng-model="tgl1" 
+				          			id="tgl1"
+				          			size='15%'
+				          			is-open="opened" 
+				          			datepicker-options="dateOptions" 
+				          			date-disabled="disabled(date, mode)" 
+				          			ng-required="true" 
+				          			close-text="Close" 
+				          			alt-input-formats="altInputFormats" />
+				          	<span class="input-group-btn">
+				            	<button type="button" class="btn btn-info" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				          	</span>
+				        </p>
+			  		</div>	
+			  		<div class="form-group ">
+			  			<p class="input-group">
+			    			<label for="tgl2">s/d</label>
+			    		</p>
+			    		<p class="input-group">
+				          	<input 	type="text" 
+				          			class="form-control input-sm" 
+				          			uib-datepicker-popup="dd-MMM-yyyy" 
+				          			ng-model="tgl2" 
+				          			id="tgl2"
+				          			size='15%'
+				          			is-open="opened2" 
+				          			datepicker-options="dateOptions" 
+				          			date-disabled="disabled(date, mode)" 
+				          			ng-required="true" 
+				          			close-text="Close" 
+				          			alt-input-formats="altInputFormats" />
+				          	<span class="input-group-btn">
+				            	<button type="button" class="btn btn-info" ng-click="open2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				          	</span>
+				        </p>
+			  		</div>	
+			  		<div class="form-group ">
+			    		<label for="btnCari"></label>
+			    		<p class="input-group">
+				    		<input 
+				    			type='button' 				
+								class='btn btn-primary '
+								ng-click='getAll()'						
+								value="  search " 
+								style='width:10em; height:3em'				
+								/>	
+						</p>
+			  		</div>	
+			  	</form>					 								
+			</div>
+			<br>
+			<table class="table table-bordered table-striped table-condensed table-hover" style="background-color:#D6EBFF"  >
+				<thead>
+					<tr>
+						<td width="10%">Tgl</td>    
+					    <td width="10%">Bukti</td>    
+					    <td width="15%">Jenis</td>    
+					    <td width="35%">Keterangan</td>    
+					    <td width="10%"><p class="text-center">Masuk</p></td>    
+					    <td width="10%"><p class="text-center">Keluar</p></td>    
+					    <td width="10%"><p class="text-center">Akhir</p></td>    
+					    <!-- <td width="10%"></td> -->
+					</tr>	
+				</thead>
+				<tbody>
+					<tr ng-repeat='historyBarang in historyBarangs ' >
+						<td>{{historyBarang.tglTransaksi | date:'dd-MMM-yyyy'}}</td>
+					    <td>{{historyBarang.noBukti}}</td> 					
+					    <td>{{historyBarang.jenisTransaksiHistoryStock }}</td>
+					    <td>{{historyBarang.keterangan }}</td> 
+					    <td><p class="text-center">
+					    	{{historyBarang.masuk}}
+					    	</p>
+					    </td> 	
+					    <td><p class="text-center">{{historyBarang.keluar}}</p></td>
+					    <td><p class="text-center">{{historyBarang.akhir}}</p></td>					      
+					</tr>		
+				</tbody>
+			</table>
+			<div class="row">
+		        <uib-pagination 
+		        	total-items="totalItems" 
+		        	items-per-page="itemsPerPage" 
+		         	ng-model="currentPage" 
+		         	ng-change="pageChanged()" 
+		         	max-size="10" 
+		         	boundary-links="true" 
+		         	rotate="false"></uib-pagination>
+		    </div>
+		</div>
+
+  </div>
+</div>

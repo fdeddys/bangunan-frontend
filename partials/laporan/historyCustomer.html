@@ -1,0 +1,161 @@
+<div growl></div> 
+
+<div class="panel panel-warning">
+	<div class="panel-heading">
+		<h3 class="panel-title">History Keuangan Customer</h3>
+	</div>
+  	<div class="panel-body">
+		<div class='container-fluid'  >
+			<div>
+				<form class="form-inline">	
+					<div class="form-group">
+						<p class="input-group">
+			    		<label for="customer">Nama Customer </label>
+			    		</p>
+			    		<p class="input-group">
+			    			<input 
+								type="text" 
+								id="customer"								
+								ng-model="customerSelected"   
+								class="form-control input-sm" 
+								uib-typeahead="customer as customer.nama +' ['+ customer.id+']' for customer in getCustomerByNama($viewValue)" 
+								typeahead-loading="loadingCustomers" typeahead-no-results="noResultsCustomer"
+								placeholder="Isi Nama Customer"
+								typeahead-should-select="true">
+				    	</p>
+			  		</div>
+					<div class="form-group ">
+						<p class="input-group">
+			    		<label for="tgl1">Tanggal </label>
+			    		</p>
+			    		<p class="input-group">
+				          	<input 	type="text" 
+				          			class="form-control input-sm" 
+				          			uib-datepicker-popup="dd-MMM-yyyy" 
+				          			ng-model="tgl1" 
+				          			id="tgl1"
+				          			size='15%'
+				          			is-open="opened" 
+				          			datepicker-options="dateOptions" 
+				          			date-disabled="disabled(date, mode)" 
+				          			ng-required="true" 
+				          			close-text="Close" 
+				          			alt-input-formats="altInputFormats" />
+				          	<span class="input-group-btn">
+				            	<button type="button" class="btn btn-info" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				          	</span>
+				        </p>
+			  		</div>	
+			  		<div class="form-group ">
+			  			<p class="input-group">
+			    			<label for="tgl2">s/d</label>
+			    		</p>
+			    		<p class="input-group">
+				          	<input 	type="text" 
+				          			class="form-control input-sm" 
+				          			uib-datepicker-popup="dd-MMM-yyyy" 
+				          			ng-model="tgl2" 
+				          			id="tgl2"
+				          			size='15%'
+				          			is-open="opened2" 
+				          			datepicker-options="dateOptions" 
+				          			date-disabled="disabled(date, mode)" 
+				          			ng-required="true" 
+				          			close-text="Close" 
+				          			alt-input-formats="altInputFormats" />
+				          	<span class="input-group-btn">
+				            	<button type="button" class="btn btn-info" ng-click="open2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+				          	</span>
+				        </p>
+			  		</div>	
+			  		<div class="form-group ">
+			    		<label for="btnCari"></label>
+			    		<p class="input-group">
+				    		<input 
+				    			type='button' 				
+								class='btn btn-primary '
+								ng-click='getAll()'						
+								value="  search " 
+								style='width:10em; height:3em'				
+								/>	
+						</p>
+			  		</div>	
+			  	</form>					 								
+			</div>
+			<br>
+			<table class="table table-bordered table-striped table-condensed table-hover" style="background-color:#D6EBFF"  >
+				<thead>
+					<tr>
+						<td width="15%">Tgl</td>    					    		
+						<td width="10%">id Trans</td> 
+					    <td width="35%">Keterangan</td>    
+					    <td width="15%"><p class="text-center">Masuk</p></td>    
+					    <td width="15%"><p class="text-center">Keluar</p></td>    
+					    <!-- <td width="10%"><p class="text-center"></p></td>    --> 
+					    <!-- <td width="10%"></td> -->
+					</tr>	
+				</thead>
+				<tbody>
+					<tr ng-repeat='historyCustomer in historyCustomers ' >
+						<td>{{historyCustomer.tglTransaksi | date:'dd-MMM-yyyy'}}</td>					    
+						<td>{{historyCustomer.idTransaksi }}</td> 					
+					    <td>{{historyCustomer.keterangan }}</td> 
+					    <td><p class="text-center">
+					    	{{historyCustomer.masuk | number}}
+					    	</p>
+					    </td> 	
+					    <td><p class="text-center">{{historyCustomer.keluar | number}}</p></td>					    					      
+					</tr>		
+				</tbody>
+			</table>
+			<!-- <div class="row">
+		        <uib-pagination total-items="totalItems" items-per-page="itemsPerPage" 
+		         	ng-model="currentPage" ng-change="pageChanged()" max-size="10" boundary-links="true" rotate="false"></uib-pagination>
+		    </div> -->
+		    <div class="container-fluid" style="background-color:whitesmoke ">
+				<table border="0" style="width:100%; ">
+					<thead>
+						<tr>													
+							<td width="50%" ></td>			    
+						    <td width="25%"></td>			    		
+						    <td width="25%"></td>			    		
+						</tr>	
+					</thead>
+					<tbody>
+						<tr >
+							<td>
+								<uib-pagination 
+									total-items="totalItems" 
+									items-per-page="itemsPerPage" 
+									ng-model="currentPage" 
+									ng-change="pageChanged()" 
+									max-size="10" 
+									boundary-links="true" 
+									rotate="false"></uib-pagination>	    			
+							</td>							
+							<td style="color:red">								
+								<p>
+								Total Belanja : Rp <span>{{totalPenjualan | number}}</span>
+								</p>
+								<p>
+								Total Bayar : Rp <span>{{totalPembayaran | number}}</span>
+								</p>
+							</td>	
+							<td style="color:red">
+								<p>
+								Limit : Rp <span>{{customerSelected.maxLimit | number}}</span>
+								</p>
+								<p>
+								Sisa : Rp <span>{{customerSelected.maxLimit - (totalPenjualan - totalPembayaran) | number}}</span>
+								</p>
+							</td>			
+						</tr>				
+					</tbody>
+					
+				</table>
+			</div>
+
+		</div>
+
+  </div>
+</div>

@@ -1,0 +1,130 @@
+<div growl></div> 
+
+<div class="panel panel-warning">
+	<div class="panel-heading">
+		<h3 class="panel-title">Laporan {{namaLaporan}}</h3>
+	</div>
+
+  	<div class="panel-body">
+		<div class='container-fluid'  >
+			<div>
+				<!-- <form class="form-inline">	
+					<div class="form-group ">
+						<p class="input-group">
+			    			<label for="tgl1">Tanggal </label>
+			    		</p>
+			    		
+			  		</div>	
+			  		<div class="form-group ">
+			  			<p class="input-group">
+			    			<label for="tgl2">s/d</label>
+			    		</p>
+			    		<p class="input-group">
+				          	
+				        </p>
+			  		</div>	
+			  		<div class="form-group ">
+			    		<label for="btnCari"></label>
+			    		<p class="input-group">
+				    		
+						</p>
+			  		</div>	
+
+			  	</form> -->	
+			  	<table class="table table-bordered  table-condensed table-hover" border="0" style="background-color:#white"  >				
+				<tbody>
+					<tr  >
+						<td width="10%">Tanggal Awal</td>				
+					    <td width="25%">
+					    	<p class="input-group" style="width:15em"  >
+					          	<input 	type="text" 
+					          			class="form-control input-sm" 
+					          			uib-datepicker-popup="dd-MMM-yyyy" 
+					          			ng-model="tgl1" 
+					          			id="tgl1"
+					          			is-open="opened" 
+					          			datepicker-options="dateOptions"
+					          			date-disabled="disabled(date, mode)" 
+					          			ng-required="true" 
+					          			close-text="Close" 
+					          			alt-input-formats="altInputFormats" />
+					          	<span class="input-group-btn">
+					            	<button type="button" class="btn btn-info" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					          	</span>
+				        	</p>
+					    </td> 				
+					    <td width="10%">Tanggal Akhir</td> 
+					    <td width="25%">
+					    	<p class="input-group" style="width:15em">
+						    	<input 	type="text" 
+					          			class="form-control input-sm" 
+					          			uib-datepicker-popup="dd-MMM-yyyy" 
+					          			ng-model="tgl2" 
+					          			id="tgl2"
+					          			size='15%'
+					          			is-open="opened2" 
+					          			datepicker-options="dateOptions"
+					          			date-disabled="disabled(date, mode)" 
+					          			ng-required="true" 
+					          			close-text="Close" 
+					          			alt-input-formats="altInputFormats" />
+					          	<span class="input-group-btn">
+					            	<button type="button" class="btn btn-info" ng-click="open2($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					          	</span>
+					    	</p>
+					    </td> 					    
+					</tr>	
+					<tr  >
+						<td>{{ketCari}}</td>	
+						<td>
+							<input 
+								type="text" 	
+								id="cariSupp"
+								ng-model="supplierSelected"   
+								class="form-control input-sm" 
+								uib-typeahead="supplier as supplier.nama +' ['+ supplier.id+']' for supplier in getSupplierByNama($viewValue)" 
+								typeahead-loading="loadingLocations" typeahead-no-results="noResults">
+							<i 	ng-show="loadingLocations" 
+								class="glyphicon glyphicon-refresh"></i>
+						    <div ng-show="noResults">
+						     	<i class="glyphicon glyphicon-remove"></i> No Results Found
+						    </div>
+						</td>	
+						<td>{{ketCari2}}</td>	
+						<td>{{supplierSelected.nama}}</td>	
+					</tr>		
+					<tr  >
+						<td>Status</td>	
+						<td>
+							<select 
+								ng-model="statusBayar" 
+								ng-options="status for status in statuses" 
+								id="status" 
+								class="form-control input-sm" 
+								ng-show="isTampilStatusBayar"></select>	
+						</td>	
+					</tr>	
+					
+					<tr  >
+						<td>--</td>										
+					</tr>	
+					<tr  >
+						<td><input 
+				    			type='button' 				
+								class='btn btn-primary '
+								ng-click='previewLaporan()'	
+								value="  preview " 
+								style='width:10em; height:3em'				
+								/>	</td>				
+					    <td></td> 				
+					    <td></td> 
+					    <td></td> 					    
+					</tr>		
+				</tbody>
+			</table>
+
+			</div>
+		</div>
+
+  </div>
+</div>

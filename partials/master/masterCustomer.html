@@ -1,0 +1,130 @@
+<div growl></div> 
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Input / Edit Data Customer</h3>
+  </div>
+  <div class="panel-body">
+
+		<div class='container-fluid' uib-collapse="tutupGrid"  >
+			<div>
+				Cari Nama  : <input id='idCari' type='text' ng-model='search' ng-change='getAll()' class="input-medium search-query">
+					
+				<input type='button' 				
+						class='btn btn-primary '
+						ng-click='tambahCustomer()'						
+						value="  Add New " 
+						style='width:15em; height:3em'				
+						/>
+				<input type='button' 				
+						class='btn '
+						ng-click='previewLaporan()'						
+						value="  Preview " 
+						style='width:15em; height:3em'				
+						/>
+			</div>
+			<br>
+			<table class="table table-bordered table-striped table-condensed table-hover" style="background-color:#D6EBFF"  >
+				<thead>
+					<tr>
+						<td width="5%"><button class="btn btn-block btn-default" ng-click='urut("kode")'>ID</button></td>    
+					    <td width="25%"><button class="btn btn-block btn-default" ng-click='urut("nama")'>Nama</button></td> 
+					    <td width="35%" align="center"><button class="btn btn-block btn-default" >Keterangan</button></td>
+					    <td width="10%" align="center"><button class="btn btn-block btn-default" >Max Limit</button></td>
+					    <td width="10%" align="center"><button class="btn btn-block btn-default" >Close</button></td>
+					    <td width="15%" colspan="2"></td>
+					    <!-- <td width="10%"></td> -->
+					</tr>	
+				</thead>
+				<tbody>
+					<tr ng-repeat='customer in customers | orderBy:orderCustomer ' >
+						<td>{{customer.id}}</td>				
+					    <td>{{customer.nama}}</td> 					    			
+					    <td>{{customer.keterangan}}</td> 
+					    <td><p class="text-right">{{customer.maxLimit | number}}</p> </td>	
+					    <td><p class="text-center">{{customer.isTutup}}</p></td>	
+					    <td><button type='button' class='btn btn-warning btn-block btn-ms'
+					    	ng-click='ubahCustomer(customer.id,customer.nama,$index)'
+					    	><span> Edit </span></button></td>
+					    <td><button type='button' class='btn btn-danger btn-block btn-ms'
+					    	ng-click='hapusCustomer(customer.id,customer.nama)'
+					    	>Delete</button></td>		    
+					</tr>		
+				</tbody>
+			</table>
+			<div class="row">
+		        <uib-pagination total-items="totalItems" items-per-page="itemsPerPage" 
+		         	ng-model="currentPage" ng-change="pageChanged()" max-size="10" boundary-links="true" rotate="false"></uib-pagination>
+		    </div>
+		</div>
+
+		<div uib-collapse="!tutupGrid" ng-class='classForm' class='container-fluid' style='color:whitesmoke'  >
+			<div>
+				<h3 >Detil</h3>
+				<hr>
+
+				<form class="form-horizontal">
+		    
+				    <div class="form-group form-group-sm">
+				        <label for="id" class="col-sm-2 control-label">ID</label>
+				        <div class="col-sm-2">
+				        	<input type='text' class="form-control " ng-disabled='true' id="id" ng-model='customer.id' />              
+				        </div>
+				    </div>
+				    <div class="form-group form-group-sm">
+				        <label for="nama" class="col-sm-2 control-label">Nama</label>
+				        <div class="col-sm-6">     
+				        	<input type='text' id='nama' maxlength='90' ng-model='customer.nama' size="50" class="form-control "  />    
+				        </div>
+				    </div>
+				    <div class="form-group form-group-sm">
+				        <label for="keterangan" class="col-sm-2 control-label">Keterangan</label>
+				        <div class="col-sm-8 ">     
+				        	<textarea id='keterangan' maxlength='200' ng-model='customer.keterangan' rows="5" cols="100"  class="input-large"  ></textarea>
+				        </div>
+				    </div>
+				    <div class="form-group form-group-sm">
+				        <label for="maxLimit" class="col-sm-2 control-label">Max Limit Barang</label>
+				        <div class="col-sm-3">     
+				        	<input type='number' id='maxLimit' ng-model='customer.maxLimit' class="form-control " required="true" />{{customer.maxLimit|number}}				        	
+				        </div>
+				    </div>				    				   
+				    <div class="form-group form-group-sm">
+				        <label for="maxLimitJasa" class="col-sm-2 control-label">Max Limit Jasa</label>
+				        <div class="col-sm-3">     
+				        	<input type='number' id='maxLimitJasa' ng-model='customer.maxLimitJasa' class="form-control " required="true" />{{customer.maxLimitJasa|number}}				        	
+				        </div>
+				    </div>				    				   
+				</form>
+				
+				<br>		
+
+				<table border='0' >
+					<thead>
+						<tr >
+							<td width='8%'></td>
+							<td width='1%'></td>
+							<td width='8%'></td>
+							<td width='20%'></td>
+							<td width='20%'></td>
+						</tr>	
+					</thead>			
+					<tbody>
+						<tr>
+							<td><button class="btn btn-warning btn-block" ng-click='proses()'>Ok</button></td>
+							<td></td>					
+							<td><button class="btn btn-success btn-block" ng-click='tutupDetil()'>Close</button></td>
+							<td></td>					
+							<td></td>					
+						</tr>
+					</tbody>
+				</table>
+				
+
+			</div>
+			<hr>	
+		</div>
+
+
+  </div>
+</div>

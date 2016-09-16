@@ -1,0 +1,240 @@
+<!doctype html>
+<html  lang="en" ng-app="appSIMPRO">
+	<head>
+		<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">	    
+		<title>Sistem Informasi Management Project</title>	
+		
+		<!--script type="text/javascript" src="js/jQuery/jquery-2.1.1.js"></script-->	 
+		<script type="text/javascript" src="js/angular/js/fusioncharts.js"></script>
+		<script type="text/javascript" src="js/angular/js/themes/fusioncharts.theme.carbon.js"></script>
+		<script type="text/javascript" src="js/angular/js/themes/fusioncharts.theme.fint.js"></script>
+		<script type="text/javascript" src="js/angular/js/themes/fusioncharts.theme.ocean.js"></script>
+		<script type="text/javascript" src="js/angular/js/themes/fusioncharts.theme.zune.js"></script>
+
+		<script type="text/javascript" src="js/angular/angular.js"></script>
+		<script type="text/javascript" src="js/angular/angular-route.js"></script>
+		<script type="text/javascript" src="js/angular/angular-growl.js"></script>		
+		<script type="text/javascript" src="js/angular/angular-cookies.js"></script>	
+		<script type="text/javascript" src="js/angular/angular-animate.js"></script>		
+		<script type="text/javascript" src="js/angular/ui-bootstrap-tpls.js"></script>
+		<!--script type="text/javascript" src="js/bootstrap/bootstrap.js"></script-->
+		<script type="text/javascript" src="js/angular/js/angular-fusioncharts.min.js"></script>
+
+		<!-- MAIN MENU -->
+		<script type="text/javascript" src="js/app/utama.js"></script>
+		<script type="text/javascript" src="js/app/menuBarController.js"></script>
+		<script type="text/javascript" src="js/app/dialogForm/dialogController.js"></script>
+		<script type="text/javascript" src="js/app/dashboard/dashboardService.js"></script>
+		<script type="text/javascript" src="js/app/dashboard/dashboardController.js"></script>
+		
+
+		<!-- DIALOG -->
+		<script type="text/javascript" src="js/app/dialogForm/dialogPembayaran/dialogSupplierController.js"></script>
+		<script type="text/javascript" src="js/app/dialogForm/dialogPembayaran/dialogCustomerController.js"></script>
+		
+		<!-- LOGIN -->
+		<script type="text/javascript" src="js/app/login/serviceAuth.js"></script>
+		<script type="text/javascript" src="js/app/login/loginController.js"></script>
+
+		<!-- SERVICE -->
+		<script type="text/javascript" src="js/app/master/customer/customerService.js"></script>
+		<script type="text/javascript" src="js/app/master/supplier/supplierService.js"></script>
+		<script type="text/javascript" src="js/app/master/barang/barangService.js"></script>
+		<script type="text/javascript" src="js/app/master/satuan/satuanService.js"></script>
+		<script type="text/javascript" src="js/app/master/gudang/gudangService.js"></script>
+		<script type="text/javascript" src="js/app/master/caraBayar/caraBayarService.js"></script>
+		<script type="text/javascript" src="js/app/master/mandor/mandorService.js"></script>
+
+		<!-- PEMBELIAN -->
+		<script type="text/javascript" src="js/app/transaksi/pembelian/penerimaanBarang/penerimaanBarangService.js"></script>
+		<script type="text/javascript" src="js/app/transaksi/pembelian/penerimaanBarang/penerimaanBarangDetilService.js"></script>
+		<script type="text/javascript" src="js/app/transaksi/pembelian/returToSupplier/returBarangService.js"></script>
+		<script type="text/javascript" src="js/app/transaksi/pembelian/returToSupplier/returBarangDetilService.js"></script>
+
+		<!-- PENJUALAN -->
+		<script type="text/javascript" src="js/app/transaksi/penjualan/penjualanBarang/penjualanBarangService.js"></script>
+		<script type="text/javascript" src="js/app/transaksi/penjualan/penjualanBarang/penjualanBarangDetilService.js"></script>
+		<script type="text/javascript" src="js/app/transaksi/penjualan/jasa/penjualanJasaService.js"></script>
+
+
+		<!-- LAPORAN -->
+		<script type="text/javascript" src="js/app/laporan/historyBarang/historyBarangService.js"></script>		
+		<script type="text/javascript" src="js/app/laporan/historyCustomer/historyCustomerService.js"></script>		
+		<!-- Utility -->		
+		<script type="text/javascript" src="js/app/utility/user/userService.js"></script>
+				
+		<!-- CONTROLLER -->
+		<script type="text/javascript" src="js/app/master/supplier/supplierController.js"></script>					
+		<script type="text/javascript" src="js/app/master/customer/customerController.js"></script>			
+		<script type="text/javascript" src="js/app/master/satuan/satuanController.js"></script>	
+		<script type="text/javascript" src="js/app/master/gudang/gudangController.js"></script>				
+		<script type="text/javascript" src="js/app/master/barang/barangController.js"></script>	
+		<script type="text/javascript" src="js/app/master/caraBayar/caraBayarController.js"></script>
+		<script type="text/javascript" src="js/app/master/mandor/mandorController.js"></script>
+
+		<!-- PEMBELIAN -->
+		<script type="text/javascript" src="js/app/transaksi/pembelian/penerimaanBarang/penerimaanBarangController.js"></script>
+		<script type="text/javascript" src="js/app/transaksi/pembelian/penerimaanBarang/penerimaanBarangDetilController.js"></script>
+		<script type="text/javascript" src="js/app/transaksi/pembelian/returToSupplier/returBarangController.js"></script>
+		<script type="text/javascript" src="js/app/transaksi/pembelian/returToSupplier/returBarangDetilController.js"></script>
+		<script type="text/javascript" src="js/app/transaksi/pembelian/pembayaranToSupplier/pembayaranSupplierController.js"></script>
+		
+
+		<!-- PENJUALAN -->
+		<script type="text/javascript" src="js/app/transaksi/penjualan/penjualanBarang/penjualanBarangController.js"></script>
+		<script type="text/javascript" src="js/app/transaksi/penjualan/jasa/penjualanJasaController.js"></script>
+		<script type="text/javascript" src="js/app/transaksi/penjualan/jasa/penjualanJasaDetilController.js"></script>
+		<script type="text/javascript" src="js/app/transaksi/penjualan/penjualanBarang/penjualanBarangDetilController.js"></script>
+		<script type="text/javascript" src="js/app/transaksi/penjualan/pembayaranCustomer/pembayaranCustomerController.js"></script>
+
+		<!-- LAPORAN -->
+		<script type="text/javascript" src="js/app/laporan/historyBarang/historyBarangController.js"></script>		
+		<script type="text/javascript" src="js/app/laporan/historyCustomer/historyCustomerController.js"></script>	
+		<script type="text/javascript" src="js/app/laporan/pembelian/pembelianController.js"></script>	
+
+		<!-- Utility -->
+		<script type="text/javascript" src="js/app/utility/user/userController.js"></script>
+				
+ 		
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="css/styleSendiri.css">
+		<link rel="stylesheet" type="text/css" href="css/angular-growl.min.css">
+		
+		<base href="#/">			
+	</head>
+
+	<body style="background-color:white">			
+	    <div class="container-fluid" ng-controller="menuBarController">
+			<div class="row">
+				<div class="col-md-12" >				
+				<!-- style="background-color:whitesmoke" -->
+					<nav class="navbar navbar-default  navbar-top">				
+					<!-- navbar-fixed-top -->
+						<div class="container-fluid">
+
+							<div class="navbar-header">
+								<a class="navbar-brand" href="#/">
+									SIMPRO								 
+									<span class="badge">0.1</span>
+								</a>
+							</div>
+
+							<p class="navbar-text navbar-right" 
+								style="color:green" 
+								uib-popover="Click untuk logout!" 
+								popover-trigger="mouseenter" 
+								popover-placement="bottom">Status 
+								<a href="#/login" class="navbar-link">{{namaLogin}}  </a>  
+									<span class="glyphicon glyphicon-user" aria-hidden="true">
+									</span>  .
+							</p>
+						</div>
+
+					</nav>
+			  	</div>		  
+			</div>
+
+		<div class="row">
+
+			<div class="col-md-2" style="background-color:white"  > 
+			<!-- ng-controller="menuBarController"  -->
+		  		<uib-accordion close-others="true" >
+			    	<uib-accordion-group panel-class="panel-default" is-disabled="!isLogin"  style="font-size:10px;">
+			      		<uib-accordion-heading >
+			      		<p style="font-size:13px;">
+			        		Master <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+			        	</p>
+			      		</uib-accordion-heading>
+			      			<ul class="nav nav-pills nav-stacked " >
+							  	<li role="presentation"><a href="#/masterSupplier">Supplier</a></li>
+							  	<li role="presentation"><a href="#/masterCustomer">Customer</a></li>	
+							  	<li role="presentation"><a href="#/masterSatuan">Satuan</a></li>	
+							  	<li role="presentation"><a href="#/masterGudang">Gudang</a></li>	
+							  	<li role="presentation"><a href="#/masterBarang">Barang</a></li>							  	
+							  	<li role="presentation"><a href="#/masterCaraBayar">Cara Pembayaran</a></li>
+							  	<li role="presentation"><a href="#/masterMandor">Mandor</a></li>
+							</ul>
+			    	</uib-accordion-group>
+
+					<uib-accordion-group panel-class="panel-success" is-disabled="!isLogin" style="font-size:10px;">
+			      		<uib-accordion-heading >
+			      		<p style="font-size:13px;">
+			        		Pembelian<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+			        	</p>
+			      		</uib-accordion-heading>
+			      			<ul class="nav nav-pills nav-stacked ">
+							  	<li role="presentation">
+							  		<a href="#/penerimaanBarang">Penerimaan Barang </a></li>
+							  	<li role="presentation">
+							  		<a href="#/returBarang">Retur to Supplier</a></li>
+							  	<li role="presentation">
+							  		<a href="#/pembayaranSupplier">Pembayaran</a></li>							  	
+							</ul>
+			    	</uib-accordion-group>
+
+			    	<uib-accordion-group panel-class="panel-info" is-disabled="!isLogin" style="font-size:10px;">
+			      		<uib-accordion-heading >
+			      		<p style="font-size:13px;">
+			        		Penjualan<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+			        	</p>
+			      		</uib-accordion-heading>
+			      			<ul class="nav nav-pills nav-stacked ">
+							  	<li role="presentation">
+							  		<a href="#/penjualanBarang/true">Penjualan</a></li>
+							  	<li role="presentation">
+							  		<a href="#/penjualanJasa">Jasa</a></li>	
+							  	<li role="presentation">
+							  		<a href="#/pembayaranCustomer">Pembayaran</a></li>	
+							  	<li role="presentation"><a href="#/closeCust">Tutup Project -customer</a></li>				
+							</ul>
+			    	</uib-accordion-group>
+
+			    	<uib-accordion-group panel-class="panel-warning" is-disabled="!isLogin" style="font-size:10px;">
+			      		<uib-accordion-heading >
+			      		<p style="font-size:13px;">
+			        		Laporan <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+			        	</p>
+			      		</uib-accordion-heading>
+			      			<ul class="nav nav-pills nav-stacked ">
+			      				<li role="presentation">
+			      					<a href="#/lapHistoryBarang">History Barang</a></li>
+			      				<li role="presentation">
+			      					<a href="#/lapHistoryCustomer">History Customer</a></li>
+							  	<li role="presentation">
+							  		<a href="#/lapPembelian/1">Pembelian</a></li>
+							  	<li role="presentation">
+							  		<a href="#/lapPembelian/2">Pelunasan Supplier</a></li>
+							  	<li role="presentation">
+							  		<a href="#/lapPembelian/3">Retur to Supplier</a></li>
+							  	<li role="presentation">
+							  		<a href="#/lapPembelian/4">Penjualan</a></li>
+							  	<li role="presentation">
+							  		<a href="#/lapPembelian/5">Pelunasan Cust</a></li>							  	
+							  	<li role="presentation">
+							  		<a href="#/lapOverLimit">Cust Over limit</a></li>
+							</ul> 
+			    		</uib-accordion-group>
+			    	<uib-accordion-group panel-class="panel-danger" is-disabled="!isLogin" style="font-size:10px;" is-open="statusOption.open">
+			      		<uib-accordion-heading >
+			      		<p style="font-size:13px;">
+			        		Utility <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+			        	</p>
+			      		</uib-accordion-heading>
+			      			<ul class="nav nav-pills nav-stacked ">
+			      				<li role="presentation"><a href="#/user">User</a></li>
+			      				<li role="presentation"><a href="#/config">Config</a></li>
+			      				<li role="presentation" ng-click="keluar()"><a href="">Logout <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
+							</ul> 
+			    	</uib-accordion-group>
+		  		</uib-accordion>
+		  	</div>
+		  	<div class="col-md-10" style="background-color:White">		  		
+		  		<ng-view></ng-view>		  		
+		  	</div>
+		</div>
+	    
+	    </div>
+	</body>
+</html>
